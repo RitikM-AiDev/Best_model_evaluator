@@ -1,0 +1,14 @@
+EXPECTED OUTPUT SPECIFICATION
+
+Agent 1 must create:
+model_evaluation_report.docx
+
+Required sections:
+1. Executive Summary
+2. Model Performance Comparison
+3. Deployment Requirement Assessment
+4. Error Analysis
+5. Deployment Recommendation
+6. Risks and Considerations
+
+The report should use the supplied evidence and be written for both ML engineering and customer-support operations stakeholders.

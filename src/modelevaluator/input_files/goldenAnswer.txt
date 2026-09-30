@@ -1,0 +1,41 @@
+GOLDEN ANSWER — MODEL EVALUATION
+
+Expected conclusion:
+Model C - XGBoost is the deployment-ready candidate based on the supplied requirements and results.
+
+Evidence:
+- Accuracy: 0.928, which exceeds the 0.90 minimum.
+- Account Access recall: 0.903, which exceeds the 0.90 minimum.
+- P95 latency: 61 ms, which is below the 100 ms maximum.
+- Model size: 31 MB, which is below the preferred 50 MB threshold.
+- ROC-AUC: 0.967 and macro F1: 0.909, providing strong overall evaluation results.
+
+Model A - Logistic Regression:
+- Accuracy is 0.891, below the 0.90 minimum.
+- Macro recall is 0.842.
+- The selected error cases include incorrect routing of Account Access tickets.
+- It should not be considered deployment-ready under the stated requirements.
+
+Model B - Random Forest:
+- Accuracy is 0.914 and latency is 68 ms, so those requirements are met.
+- Macro recall is 0.876, below the 0.90 Account Access recall requirement.
+- Model size is 94 MB, above the preferred 50 MB threshold.
+- It should not be treated as deployment-ready because of the critical recall shortfall.
+
+Model C - XGBoost:
+- Meets the stated accuracy, Account Access recall, latency, and preferred model-size requirements.
+- Its selected error cases include some mistakes, so it should not be described as error-free.
+- The available evidence supports it as the deployment candidate.
+
+Model D - Neural Network:
+- Accuracy is 0.931 and macro recall is 0.921.
+- It has the strongest macro recall among the candidates and strong ROC-AUC of 0.971.
+- However, P95 latency is 128 ms, exceeding the 100 ms deployment limit.
+- The selected error analysis also contains an Account Access routing error.
+- It should not be treated as deployment-ready unless the latency constraint can be addressed.
+
+Error-analysis interpretation:
+The ticket-level examples demonstrate why aggregate metrics alone are insufficient. Several models make errors involving Account Access tickets, including cases where Account Access is confused with Billing or Technical Issue. Model C has one selected critical routing error (E011), so its recommendation should acknowledge that it is not perfect. The sample is selected error analysis, not a complete confusion matrix, so it should not be used to calculate overall error rates.
+
+Recommended report language:
+The report should state that Model C is the candidate that satisfies the stated deployment requirements based on the supplied evidence. It should also acknowledge that model selection is not the same as claiming zero risk or perfect classification and that production monitoring would remain appropriate.

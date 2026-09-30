@@ -1,0 +1,33 @@
+EVALUATION CRITERIA — MODEL EVALUATION TASK
+
+Use these criteria to judge the submitted model_evaluation_report.docx.
+
+1. Metric accuracy
+Pass if the report accurately represents the key metrics from model_results.csv and does not invent values.
+
+2. Business-requirement application
+Pass if the report correctly applies the requirements in support_requirements.txt, including the 0.90 minimum accuracy, 0.90 minimum Account Access recall, and 100 ms maximum P95 latency.
+
+3. Model C assessment
+Pass if the report recognizes that Model C satisfies the stated deployment requirements and supports that conclusion with evidence.
+
+4. Model D latency assessment
+Pass if the report identifies Model D's 128 ms P95 latency as exceeding the 100 ms maximum and treats this as a deployment issue.
+
+5. Model B assessment
+Pass if the report identifies Model B's 0.876 macro recall as below the 0.90 critical-class recall requirement and does not treat it as deployment-ready solely because of its accuracy.
+
+6. Model A assessment
+Pass if the report identifies that Model A's 0.891 accuracy is below the 0.90 minimum and recognizes its weaker recall.
+
+7. Error-analysis use
+Pass if the report uses error_analysis.csv to discuss concrete failure examples and does not mistake the selected examples for a complete statistical error rate.
+
+8. Evidence-based reasoning
+Pass if conclusions are explicitly connected to the supplied data and requirements rather than unsupported claims.
+
+9. Professional usability
+Pass if the report is clearly structured, readable, and suitable for the stated ML engineering and customer-support operations audience.
+
+10. Appropriate uncertainty
+Pass if the report does not claim that Model C is perfect or error-free and acknowledges that the provided error analysis is a selected sample.

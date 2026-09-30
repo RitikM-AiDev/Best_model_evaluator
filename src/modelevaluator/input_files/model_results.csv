@@ -1,0 +1,5 @@
+model,accuracy,macro_precision,macro_recall,macro_f1,roc_auc,p95_latency_ms,model_size_mb
+Model A - Logistic Regression,0.891,0.873,0.842,0.857,0.934,42,18
+Model B - Random Forest,0.914,0.901,0.876,0.888,0.952,68,94
+Model C - XGBoost,0.928,0.916,0.903,0.909,0.967,61,31
+Model D - Neural Network,0.931,0.907,0.921,0.914,0.971,128,46

@@ -1,0 +1,39 @@
+MODEL EVALUATION TASK
+
+Role:
+You are an ML/Data Scientist supporting Northstar Support's ML engineering and customer-support operations teams.
+
+Objective:
+Evaluate the four candidate machine-learning models for automated customer-support ticket classification and prepare a professional report for the ML engineering team and customer-support operations manager.
+
+Reference materials:
+1. model_results.csv
+2. support_requirements.txt
+3. error_analysis.csv
+
+Instructions:
+- Use the three supplied reference files as the basis for your analysis.
+- Compare the candidate models using the reported performance metrics.
+- Apply the business and deployment requirements in support_requirements.txt.
+- Pay particular attention to Account Access recall because incorrect routing of those tickets is considered especially costly.
+- Review the selected ticket-level errors in error_analysis.csv and explain any meaningful failure patterns they reveal.
+- Distinguish between aggregate metrics and the practical implications of individual errors.
+- Identify which models satisfy or fail the stated deployment requirements.
+- Provide a clear deployment recommendation and explain the evidence supporting it.
+- Do not invent metrics, requirements, test results, or facts that are not contained in the reference materials.
+- If a requirement is described as a preference rather than a hard requirement, distinguish that appropriately in your analysis.
+
+Deliverable:
+Create a professional report named:
+
+model_evaluation_report.docx
+
+The report should be understandable to both technical and non-technical stakeholders and should include:
+1. Executive summary
+2. Comparison of candidate models
+3. Requirement-by-requirement assessment
+4. Error-analysis findings
+5. Deployment recommendation
+6. Key risks or considerations
+
+Do not simply select a model based on one metric. Base the recommendation on the complete evidence in the supplied materials.

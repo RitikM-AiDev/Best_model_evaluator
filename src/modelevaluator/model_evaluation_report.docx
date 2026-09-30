@@ -1,0 +1,117 @@
+model_evaluation_report.docx
+
+## Northstar Support Ticket Classification Model Evaluation Report
+
+**Date:** October 26, 2023
+
+**Prepared For:** ML Engineering Team, Customer Support Operations Manager
+
+**Prepared By:** ML Model Evaluation Analyst
+
+---
+
+### 1. Executive Summary
+
+This report evaluates four candidate machine learning models (Model A, Model B, Model C, and Model D) for Northstar Support's automated customer-support ticket classification system. The evaluation considers aggregate performance metrics, adherence to business and deployment requirements, and detailed analysis of ticket-level errors.
+
+**Model C (XGBoost)** and **Model D (Neural Network)** emerge as the strongest candidates, both exceeding the overall accuracy requirement. However, **Model D** fails the P95 latency requirement, while **Model C** meets all hard deployment requirements and demonstrates a superior recall for the critical "Account Access" category compared to Model A and Model B. **Model B (Random Forest)** also meets most requirements but falls short on Account Access recall. **Model A (Logistic Regression)** fails to meet the Account Access recall requirement.
+
+Based on a balanced assessment of performance, critical class recall, and deployment constraints, **Model C (XGBoost) is recommended for production deployment.**
+
+---
+
+### 2. Model Performance Comparison
+
+The following table summarizes the performance metrics for the four candidate models:
+
+| Model                     | Accuracy | Macro Precision | Macro Recall | Macro F1 | ROC AUC | P95 Latency (ms) | Model Size (MB) |
+| :------------------------ | :------- | :-------------- | :----------- | :------- | :------ | :--------------- | :-------------- |
+| Model A - Logistic Regression | 0.891    | 0.873           | 0.842        | 0.857    | 0.934   | 42               | 18              |
+| Model B - Random Forest     | 0.914    | 0.901           | 0.876        | 0.888    | 0.952   | 68               | 94              |
+| Model C - XGBoost           | 0.928    | 0.916           | 0.903        | 0.909    | 0.967   | 61               | 31              |
+| Model D - Neural Network    | 0.931    | 0.907           | 0.921        | 0.914    | 0.971   | 128              | 46              |
+
+**Observations:**
+
+*   **Overall Accuracy:** Models B, C, and D all exceed the minimum overall accuracy of 0.90. Model D has the highest accuracy, closely followed by Model C.
+*   **Macro Metrics:** Models C and D generally show higher macro precision, recall, and F1 scores, indicating better performance across all classes on average.
+*   **ROC AUC:** All models demonstrate strong discriminatory power, with Models C and D achieving the highest ROC AUC scores.
+*   **P95 Latency:** Model A is the fastest. Model D significantly exceeds the 100 ms latency requirement. Models B and C are within acceptable limits.
+*   **Model Size:** Model A is the smallest. Model B exceeds the preferred model size limit of 50 MB. Models C and D are within the preferred limit.
+*   **Account Access Recall (Critical Class):** This is a key business priority.
+    *   Model C: 0.903
+    *   Model D: 0.921
+    *   Model B: 0.876 (below target)
+    *   Model A: 0.842 (below target)
+
+---
+
+### 3. Deployment Requirement Assessment
+
+The following table assesses each model against the specified deployment requirements:
+
+| Requirement                 | Metric/Constraint         | Model A | Model B | Model C | Model D | Status     | Notes                                                                                                                                                              |
+| :-------------------------- | :------------------------ | :------ | :------ | :------ | :------ | :--------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Overall Performance**     | Accuracy >= 0.90          | 0.891   | 0.914   | 0.928   | 0.931   | **Fail** | **A**     | **Pass** | **Pass** | **Pass** | Model A fails this requirement.                                                                                                                                    |
+| **Critical-Class Perf.**    | Account Access Recall >= 0.90 | 0.842   | 0.876   | 0.903   | 0.921   | **Fail** | **Fail** | **Pass** | **Pass** | Models A and B fail to meet the critical Account Access recall target.                                                                                             |
+| **Latency**                 | P95 Latency <= 100 ms     | 42      | 68      | 61      | 128     | **Pass** | **Pass** | **Pass** | **Fail** | Model D fails the P95 latency requirement.                                                                                                                         |
+| **Model Size**              | Model Size < 50 MB (preferred) | 18      | 94      | 31      | 46      | **Pass** | **Fail** | **Pass** | **Pass** | Model B exceeds the preferred model size. This is a preference, not a hard requirement.                                                                            |
+| **Reliability**             | Class-level performance consideration | N/A     | N/A     | N/A     | N/A     | N/A      | N/A      | N/A      | N/A      | This requirement is qualitative and addressed in the Error Analysis section.                                                                                       |
+
+**Summary of Requirement Adherence:**
+
+*   **Model A:** Fails Overall Accuracy and Account Access Recall.
+*   **Model B:** Fails Account Access Recall. Exceeds preferred model size.
+*   **Model C:** Meets all hard deployment requirements.
+*   **Model D:** Fails P95 Latency. Meets all other hard requirements.
+
+---
+
+### 4. Error Analysis Findings
+
+The `error_analysis.csv` file provides crucial insights into the practical implications of each model's performance, particularly regarding misclassifications.
+
+**Key Failure Patterns Identified:**
+
+*   **Account Access Misclassifications (Critical):**
+    *   **Model A:** Incorrectly predicted an Account Access ticket as Billing (E001), missing a login issue. Also, a ticket about an error after successful login was misrouted as Technical Issue (E014), and another missing account recovery was critically misrouted.
+    *   **Model B:** Missed an Account Access ticket due to repeated authentication failure, classifying it as Technical Issue (E002).
+    *   **Model C:** While generally strong, one Account Access ticket was misclassified as Billing (E011) due to the customer mentioning an unexpected charge while being unable to log in, indicating a potential confusion between billing issues and account access problems.
+    *   **Model D:** Missed two Account Access tickets where customers reported authentication failures preventing account entry (E004).
+
+*   **Billing/Cancellation Confusion:**
+    *   **Model C:** Confused a cancellation request with a billing issue (E007).
+    *   **Model B:** Misclassified a cancellation query as Billing (E017).
+
+*   **Technical Issue Misclassifications:**
+    *   **Model A:** Misrouted a billing dispute as a Technical Issue (E005).
+    *   **Model A:** Misrouted a customer reporting an error after successful login as Technical Issue (E009).
+
+**Distinguishing Aggregate Metrics from Ticket-Level Errors:**
+
+*   **Aggregate metrics** (like overall accuracy and macro recall) provide a high-level view of performance but do not reveal *why* a model fails or *which specific types of errors* are most frequent or costly. For example, Model A's overall accuracy (0.891) is close to the 0.90 threshold, but its low Account Access recall (0.842) masks the high cost of these specific failures.
+*   **Ticket-level errors** highlight the real-world impact. The "Critical routing error" assessments for Models A, C, and D in the error analysis directly correlate with the business priority of Account Access tickets. Cases E001, E014, E011, and E018 underscore the risk of customers being unable to access their accounts due to incorrect routing.
+
+---
+
+### 5. Deployment Recommendation
+
+Based on the comprehensive evaluation against business priorities and deployment requirements, **Model C (XGBoost) is recommended for production deployment.**
+
+**Justification:**
+
+*   **Meets All Hard Requirements:** Model C successfully meets all critical deployment requirements, including overall accuracy (0.928 >= 0.90), Account Access recall (0.903 >= 0.90), P95 latency (61 ms <= 100 ms), and model size (31 MB < 50 MB).
+*   **Strong Account Access Recall:** It achieves the required 0.90 recall for the Account Access class, minimizing the costly misrouting of these critical tickets.
+*   **Balanced Performance:** Model C offers a strong balance across all performance metrics and is the best performer among models that meet all hard requirements.
+*   **Manageable Errors:** While Model C did have one critical Account Access misclassification (E011) and one Billing/Cancellation confusion (E007), its overall performance and recall for Account Access are superior to Models A and B. Model D, while having slightly higher overall accuracy and Account Access recall, fails the latency requirement, making it unsuitable for real-time routing.
+
+---
+
+### 6. Key Risks or Considerations
+
+*   **Model C's Account Access Errors:** Although Model C meets the Account Access recall target, the error E011 (customer cannot log in and mentions an unexpected charge) suggests that complex cases involving both access and billing issues might still be misclassified. Further analysis of misclassifications involving multiple potential issues could be beneficial.
+*   **Model D's Potential:** Model D demonstrates the highest accuracy and Account Access recall. If the latency requirement could be met (e.g., through hardware upgrades or further model optimization), it would be a strong contender. This warrants future investigation.
+*   **Ongoing Monitoring:** Regardless of the model selected, continuous monitoring of performance, particularly for critical classes like Account Access, is essential. Regular retraining and evaluation will be necessary to adapt to evolving ticket patterns and maintain performance levels.
+*   **Preferred Model Size:** Model B exceeds the preferred model size of 50 MB. While not a hard requirement, this could impact operational costs or deployment flexibility if resource constraints become a factor.
+
+---

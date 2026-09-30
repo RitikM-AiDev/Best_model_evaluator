@@ -1,0 +1,41 @@
+Support Ticket Classification — Business & Deployment Requirements
+
+Document purpose:
+Provide the business and deployment context required to evaluate candidate machine-learning models for automated customer-support ticket classification.
+
+1. Business Context
+
+Northstar Support operates a customer-service platform that receives approximately 180,000 support tickets per month.
+
+The company is evaluating an automated classifier that assigns each incoming ticket to one of four categories:
+
+- Billing — invoices, charges, refunds, and payment questions.
+- Technical Issue — product errors, outages, bugs, and troubleshooting.
+- Account Access — login, authentication, locked accounts, and access recovery.
+- Cancellation — subscription cancellation and related requests.
+
+2. Business Priorities
+
+Incorrect routing of Account Access tickets is considered particularly costly because these tickets can prevent customers from accessing their accounts.
+
+The operations team therefore requires strong recall for the Account Access class.
+
+The company also wants to reduce manual triage while keeping an automated system fast enough for real-time ticket routing.
+
+3. Deployment Requirements
+
+- Latency: P95 inference latency must be no more than 100 ms per ticket.
+- Model size: The production service should preferably remain below 50 MB.
+- Overall performance: Overall accuracy should be at least 0.90 on the held-out evaluation set.
+- Critical-class performance: Recall for Account Access should be at least 0.90.
+- Reliability: Evaluation should consider class-level performance, not accuracy alone.
+
+4. Interpretation Notes
+
+The requirements above are intended to guide model selection. A model that fails a hard deployment requirement should not be treated as deployment-ready merely because it has a strong overall metric.
+
+The evaluation set is a held-out sample representative of normal incoming support traffic. The model-results file contains aggregate metrics; the error-analysis file contains selected ticket-level examples and should be used to understand the practical failure patterns.
+
+5. Intended Audience
+
+The final evaluation will be reviewed by the ML engineering team and the customer-support operations manager.

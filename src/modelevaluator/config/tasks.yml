@@ -1,0 +1,77 @@
+evaluate_models:
+  description: >
+    Evaluate the four candidate machine-learning models for Northstar
+    Support's customer-support ticket classification system.
+
+    Use these reference files:
+
+    - model_results.csv
+    - support_requirements.txt
+    - error_analysis.csv
+
+    Compare the models using the reported performance metrics.
+    Apply the business and deployment requirements from
+    support_requirements.txt.
+
+    Pay particular attention to Account Access recall because
+    incorrect routing of these tickets is especially costly.
+
+    Review the ticket-level examples in error_analysis.csv and
+    identify meaningful failure patterns.
+
+    Distinguish aggregate model performance from individual
+    ticket-level errors.
+
+    Identify which models satisfy or fail the deployment requirements.
+
+    Produce a professional report for both the ML engineering team
+    and the customer-support operations manager.
+
+    Do not invent metrics, requirements, test results, or facts.
+
+  expected_output: >
+    A professional model evaluation report containing:
+
+    1. Executive Summary
+    2. Model Performance Comparison
+    3. Deployment Requirement Assessment
+    4. Error Analysis
+    5. Deployment Recommendation
+    6. Risks and Considerations
+
+    The report must be evidence-based and saved as
+    model_evaluation_report.docx.
+
+  agent: model_evaluator
+
+
+judge_evaluation:
+  description: >
+    Review the model evaluation report produced by the model evaluator.
+
+    Use the supplied evaluation criteria, Golden Answer, and reference
+    materials to determine whether the report is correct, complete,
+    evidence-based, and professionally usable.
+
+    Check whether the report correctly evaluates:
+    - model performance metrics
+    - deployment requirements
+    - Account Access recall
+    - latency
+    - model size
+    - ticket-level errors
+    - deployment readiness
+    - risks and uncertainty
+
+    Do not judge the report based only on whether it matches wording
+    from the Golden Answer. Evaluate whether the conclusions are
+    supported by the supplied evidence.
+
+  expected_output: >
+    A structured evaluation containing:
+    - criteria-by-criteria results
+    - evidence supporting each result
+    - identified errors or omissions
+    - overall assessment of the submitted report
+
+  agent: evaluation_judge

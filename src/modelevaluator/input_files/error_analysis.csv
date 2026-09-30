@@ -1,0 +1,19 @@
+case_id,true_category,predicted_category,model,assessment,ticket_summary
+E001,Account Access,Account Access,Model A,Incorrectly predicted Billing,Customer unable to log in after password reset.
+E002,Account Access,Technical Issue,Model B,Missed access-related issue,Customer reports repeated authentication failure.
+E003,Account Access,Account Access,Model C,Correct,Customer locked out after multiple login attempts.
+E004,Account Access,Technical Issue,Model D,Missed access-related issue,Two-factor authentication prevents account entry.
+E005,Billing,Technical Issue,Model A,Incorrect routing,Customer disputes a duplicate charge.
+E006,Technical Issue,Technical Issue,Model B,Correct,Application crashes when exporting a report.
+E007,Cancellation,Billing,Model C,Confuses cancellation with billing,Customer wants to terminate subscription after renewal charge.
+E008,Account Access,Account Access,Model D,Correct,Customer cannot access account and requests recovery.
+E009,Technical Issue,Account Access,Model A,Incorrect routing,Customer reports an error after successful login.
+E010,Account Access,Account Access,Model B,Correct,Customer's account is locked after failed authentication.
+E011,Account Access,Billing,Model C,Critical routing error,Customer cannot log in and mentions an unexpected charge.
+E012,Cancellation,Cancellation,Model D,Correct,Customer requests immediate subscription cancellation.
+E013,Billing,Billing,Model C,Correct,Customer asks why the monthly invoice increased.
+E014,Account Access,Technical Issue,Model A,Critical routing error,Customer cannot complete account recovery.
+E015,Technical Issue,Technical Issue,Model D,Correct,Customer receives an application error while uploading a file.
+E016,Account Access,Account Access,Model C,Correct,Customer cannot sign in after changing phone number.
+E017,Billing,Cancellation,Model B,Incorrect routing,Customer asks whether cancellation stops the next invoice.
+E018,Account Access,Billing,Model D,Critical routing error,Customer cannot access account and asks about a charge.

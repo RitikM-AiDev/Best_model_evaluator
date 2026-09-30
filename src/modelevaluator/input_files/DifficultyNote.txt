@@ -1,0 +1,3 @@
+DIFFICULTY NOTE
+
+This task requires the analyst to reconcile aggregate model metrics with explicit business and deployment requirements rather than selecting a model using a single performance metric. The analyst must also interpret selected ticket-level errors, especially Account Access failures, and distinguish those examples from aggregate performance statistics. The task contains trade-offs: for example, Model D has strong predictive metrics but exceeds the latency limit, while Model B has acceptable accuracy but fails the critical recall requirement. A correct response therefore requires synthesis across multiple reference files and application of conditional professional requirements.
